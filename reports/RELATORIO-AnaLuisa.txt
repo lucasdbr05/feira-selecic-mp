@@ -1,0 +1,2 @@
+Data       | Horas Trabalhadas | Tipo Tarefa | Descrição da Tarefa Realizada 
+02/02/2024           ?             projetar    fazer o design das telas no figma
