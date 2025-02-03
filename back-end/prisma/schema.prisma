@@ -30,6 +30,8 @@ model User {
   seller    Seller?
   client    Client?
 
+  role Role
+
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
 }

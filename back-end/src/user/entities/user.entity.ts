@@ -1,7 +1,8 @@
-import { User } from '@prisma/client';
+import { Role, User } from '@prisma/client';
 import {
   IsDate,
   IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsString,
@@ -29,6 +30,9 @@ export class UserEntity implements User {
 
   @IsString()
   refreshToken: string;
+
+  @IsEnum(Role)
+  role: Role;
 
   @IsDate()
   createdAt: Date;

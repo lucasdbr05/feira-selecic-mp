@@ -6,4 +6,5 @@ export class CreateUserDto extends PickType(UserEntity, [
   'name',
   'nickname',
   'password',
+  'role',
 ]) {}
