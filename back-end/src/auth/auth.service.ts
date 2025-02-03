@@ -44,7 +44,7 @@ export class AuthService {
       });
 
     const tokens = await this.getTokens(user.id, user.email, user.role);
-    await this.updateRtHash(user.id, tokens.refresh_token);
+    await this.updateRefreshToken(user.id, tokens.refresh_token);
 
     return tokens;
   }
@@ -68,7 +68,7 @@ export class AuthService {
     if (!passwordMatches) throw new ForbiddenException('Access Denied');
 
     const tokens = await this.getTokens(user.id, user.email, user.role);
-    await this.updateRtHash(user.id, tokens.refresh_token);
+    await this.updateRefreshToken(user.id, tokens.refresh_token);
 
     return tokens;
   }
@@ -115,7 +115,7 @@ export class AuthService {
     if (!rtMatches) throw new ForbiddenException('Access Denied');
 
     const tokens = await this.getTokens(user.id, user.email, user.role);
-    await this.updateRtHash(user.id, tokens.refresh_token);
+    await this.updateRefreshToken(user.id, tokens.refresh_token);
 
     return tokens;
   }
@@ -127,7 +127,7 @@ export class AuthService {
    * @param rt - The refresh token.
    * @returns A promise that resolves when the hash is updated.
    */
-  async updateRtHash(userId: number, rt: string): Promise<void> {
+  async updateRefreshToken(userId: number, rt: string): Promise<void> {
     const hash = await bcrypt.hash(rt, this.salt);
     await this.prisma.user.update({
       where: {
@@ -149,7 +149,7 @@ export class AuthService {
    */
   async getTokens(userId: number, email: string, role: Role): Promise<Tokens> {
     const jwtPayload: JwtPayload = {
-      sub: userId,
+      id: userId,
       email: email,
       role: role,
     };

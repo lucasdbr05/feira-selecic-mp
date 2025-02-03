@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { Role } from '@prisma/client';
 
 @Injectable()
 export class UserService {
@@ -34,5 +35,13 @@ export class UserService {
     return await this.prisma.user.delete({
       where: { id },
     });
+  }
+
+  async getRole(id: number): Promise<Role> {
+    return await this.prisma.user
+      .findUnique({
+        where: { id: id },
+      })
+      .then((res) => res.role);
   }
 }
