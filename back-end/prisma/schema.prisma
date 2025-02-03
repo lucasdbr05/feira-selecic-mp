@@ -24,6 +24,8 @@ model User {
   email     String   @unique
   password  String
 
+  refreshToken   String?
+
   admin     Admin?
   seller    Seller?
   client    Client?
