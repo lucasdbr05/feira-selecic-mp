@@ -26,9 +26,6 @@ jobs:
         with:
           node-version: 20
 
-      - name: Point to back-end
-        run: cd back-end
-        
       - name: Install dependencies
         run: npm ci
         working-directory: ./back-end
