@@ -8,6 +8,7 @@ import { AuthDto } from './dto/auth.dto';
 import { JwtPayload, Tokens } from './types';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { Role } from '@prisma/client';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
@@ -15,6 +16,7 @@ export class AuthService {
     private prisma: PrismaService,
     private jwtService: JwtService,
     private config: ConfigService,
+    private readonly userService: UserService,
   ) {}
 
   private salt = 10;
@@ -29,19 +31,11 @@ export class AuthService {
   async signup(data: CreateUserDto): Promise<Tokens> {
     const hash = await bcrypt.hash(data.password, this.salt);
 
-    const user = await this.prisma.user
-      .create({
-        data: {
-          ...data,
-          password: hash,
-        },
-      })
-      .catch((error) => {
-        if (error?.code === 'P2002') {
-          throw new ForbiddenException('Credentials incorrect');
-        }
-        throw error;
-      });
+    const createUserData: CreateUserDto = {
+      ...data,
+      password: hash,
+    };
+    const user = await this.userService.create(createUserData);
 
     const tokens = await this.getTokens(user.id, user.email, user.role);
     await this.updateRefreshToken(user.id, tokens.refresh_token);

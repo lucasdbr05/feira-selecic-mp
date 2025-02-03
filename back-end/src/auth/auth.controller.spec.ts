@@ -1,14 +1,27 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { AtStrategy } from './strategies';
+import { APP_GUARD } from '@nestjs/core';
+import { AtGuard } from './guards';
+import { RolesGuard } from './guards/roles.guard';
+import { mock } from 'jest-mock-extended';
+import { ConfigModule } from '@nestjs/config';
 
 describe('AuthController', () => {
   let controller: AuthController;
+  const service = mock<AuthService>();
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [ConfigModule],
       controllers: [AuthController],
-      providers: [AuthService],
+      providers: [
+        AtStrategy,
+        { provide: APP_GUARD, useClass: AtGuard },
+        { provide: APP_GUARD, useClass: RolesGuard },
+        { provide: AuthService, useValue: service },
+      ],
     }).compile();
 
     controller = module.get<AuthController>(AuthController);

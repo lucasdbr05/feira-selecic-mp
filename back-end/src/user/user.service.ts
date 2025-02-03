@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
@@ -9,9 +9,16 @@ export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(data: CreateUserDto) {
-    return await this.prisma.user.create({
-      data: data,
-    });
+    return await this.prisma.user
+      .create({
+        data: data,
+      })
+      .catch((error) => {
+        if (error?.code === 'P2002') {
+          throw new ForbiddenException('Credentials incorrect');
+        }
+        throw error;
+      });
   }
 
   async findAll() {
