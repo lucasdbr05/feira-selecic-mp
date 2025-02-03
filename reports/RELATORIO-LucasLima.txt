@@ -1,0 +1,1 @@
+03/02/2025 | 4H | Authentication and Autorizations (back-end) | Nessa tarefa, foi-se implementado as lógicas de autenticação (login, logout, signup), as autorizações de permições por papel de cada usuário e a criação do módulo de usuário
