@@ -19,6 +19,13 @@ export class AuthService {
 
   private salt = 10;
 
+  /**
+   * Signs up a new user.
+   *
+   * @param data - The data for creating a new user.
+   * @returns A promise that resolves to the tokens for the new user.
+   * @throws ForbiddenException if the credentials are incorrect.
+   */
   async signup(data: CreateUserDto): Promise<Tokens> {
     const hash = await bcrypt.hash(data.password, this.salt);
 
@@ -42,6 +49,13 @@ export class AuthService {
     return tokens;
   }
 
+  /**
+   * Signs in a user.
+   *
+   * @param dto - The authentication data transfer object.
+   * @returns A promise that resolves to the tokens for the user.
+   * @throws ForbiddenException if access is denied.
+   */
   async signin(dto: AuthDto): Promise<Tokens> {
     const user = await this.prisma.user.findUnique({
       where: {
@@ -59,6 +73,12 @@ export class AuthService {
     return tokens;
   }
 
+  /**
+   * Logs out a user.
+   *
+   * @param userId - The ID of the user to log out.
+   * @returns A promise that resolves to a success message.
+   */
   async logout(userId: number) {
     await this.prisma.user.updateMany({
       where: {
@@ -71,9 +91,17 @@ export class AuthService {
         refreshToken: null,
       },
     });
-    return 'User logged out succesfully';
+    return 'User logged out successfully';
   }
 
+  /**
+   * Refreshes the tokens for a user.
+   *
+   * @param userId - The ID of the user.
+   * @param rt - The refresh token.
+   * @returns A promise that resolves to the new tokens.
+   * @throws ForbiddenException if access is denied.
+   */
   async refreshTokens(userId: number, rt: string): Promise<Tokens> {
     const user = await this.prisma.user.findUnique({
       where: {
@@ -92,6 +120,13 @@ export class AuthService {
     return tokens;
   }
 
+  /**
+   * Updates the refresh token hash for a user.
+   *
+   * @param userId - The ID of the user.
+   * @param rt - The refresh token.
+   * @returns A promise that resolves when the hash is updated.
+   */
   async updateRtHash(userId: number, rt: string): Promise<void> {
     const hash = await bcrypt.hash(rt, this.salt);
     await this.prisma.user.update({
@@ -104,6 +139,14 @@ export class AuthService {
     });
   }
 
+  /**
+   * Generates access and refresh tokens.
+   *
+   * @param userId - The ID of the user.
+   * @param email - The email of the user.
+   * @param role - The role of the user.
+   * @returns A promise that resolves to the tokens.
+   */
   async getTokens(userId: number, email: string, role: Role): Promise<Tokens> {
     const jwtPayload: JwtPayload = {
       sub: userId,
