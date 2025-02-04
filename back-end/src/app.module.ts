@@ -7,6 +7,9 @@ import { APP_GUARD } from '@nestjs/core';
 import { AtGuard } from './auth/guards/at.guard';
 import { RolesGuard } from './auth/guards/roles.guard';
 import { AppController } from './app.controller';
+import { AdminModule } from './admin/admin.module';
+import { SellerModule } from './seller/seller.module';
+import { ClientModule } from './client/client.module';
 import { FairModule } from './fair/fair.module';
 
 @Module({
@@ -15,6 +18,9 @@ import { FairModule } from './fair/fair.module';
     PrismaModule,
     UserModule,
     AuthModule,
+    AdminModule,
+    SellerModule,
+    ClientModule,
     FairModule,
   ],
   controllers: [AppController],
