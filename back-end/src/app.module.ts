@@ -10,6 +10,7 @@ import { AppController } from './app.controller';
 import { AdminModule } from './admin/admin.module';
 import { SellerModule } from './seller/seller.module';
 import { ClientModule } from './client/client.module';
+import { FairModule } from './fair/fair.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ClientModule } from './client/client.module';
     AdminModule,
     SellerModule,
     ClientModule,
+    FairModule,
   ],
   controllers: [AppController],
   providers: [
