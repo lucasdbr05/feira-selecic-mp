@@ -1,1 +1,3 @@
-03/02/2025 | 4H | Authentication and Autorizations (back-end) | Nessa tarefa, foi-se implementado as lógicas de autenticação (login, logout, signup), as autorizações de permições por papel de cada usuário e a criação do módulo de usuário
+Data       | Horas Trabalhadas |      Tipo Tarefa                            | Descrição da Tarefa Realizada 
+03/02/2025 | 4H                | Authentication and Autorizations (back-end) | Nessa tarefa, foi-se implementado as lógicas de autenticação (login, logout, signup), as autorizações de permições por papel de cada usuário e a criação do módulo de usuário
+04/02/2025 | 4H                | Roles                                       | Diferentes tipos de usuário 
