@@ -7,6 +7,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AtGuard } from './auth/guards/at.guard';
 import { RolesGuard } from './auth/guards/roles.guard';
 import { AppController } from './app.controller';
+import { GeocodeModule } from './geocode/geocode.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AppController } from './app.controller';
     PrismaModule,
     UserModule,
     AuthModule,
+    GeocodeModule,
   ],
   controllers: [AppController],
   providers: [
