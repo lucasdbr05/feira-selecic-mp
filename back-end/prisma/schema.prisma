@@ -44,6 +44,7 @@ model Admin {
 model Seller {
   id   Int  @id
   user User @relation(fields: [id], references: [id])
+  shop Shop?
 }
 
 
@@ -54,4 +55,29 @@ model Client {
   cep  String  
   latitude String
   longitude  String
+}
+
+model Fair {
+  id Int @id @default(autoincrement())
+  name String
+  cep  String  
+  latitude String
+  longitude  String
+  shops Shop[] @relation()
+  
+}
+
+model Shop {
+  id Int  @id @default(autoincrement())
+  name String
+  fairId Int
+  fair Fair @relation(fields: [fairId], references: [id])
+  sellerId Int @unique
+  seller Seller @relation(fields: [sellerId], references: [id])
+  categorias  Json
+  isOpen Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+
 }
