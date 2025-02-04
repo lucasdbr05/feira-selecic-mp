@@ -13,8 +13,8 @@ export class UserService {
   ) {}
 
   async create(data: CreateUserDto) {
-    return this.prisma.$transaction(async (prisma) => {
-      const user = await prisma.user
+    return this.prisma.$transaction(async (prismaTransaction) => {
+      const user = await prismaTransaction.user
         .create({
           data: data,
         })
@@ -26,8 +26,11 @@ export class UserService {
         });
 
       if (user.role == Role.ADMIN) {
-        await this.adminService.create({ id: user.id });
+        await this.adminService.create({ id: user.id }, prismaTransaction);
+      } else if (user.role == Role.SELLER) {
+      } else if (user.role == Role.CLIENT) {
       }
+      return user;
     });
   }
 
