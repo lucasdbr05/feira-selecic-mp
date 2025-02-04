@@ -74,10 +74,19 @@ model Shop {
   fair Fair @relation(fields: [fairId], references: [id])
   sellerId Int @unique
   seller Seller @relation(fields: [sellerId], references: [id])
-  categorias  Json
+  categories  Json
+  products Product[]
   isOpen Boolean
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
 
+}
+
+model Product {
+  id Int @id @default(autoincrement())
+  name String
+  price Float
+  shopId Int
+  shop Shop @relation(fields: [shopId], references: [id])
 }
