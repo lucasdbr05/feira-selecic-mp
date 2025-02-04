@@ -3,22 +3,32 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { Role } from '@prisma/client';
+import { AdminService } from '../admin/admin.service';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly adminService: AdminService,
+  ) {}
 
   async create(data: CreateUserDto) {
-    return await this.prisma.user
-      .create({
-        data: data,
-      })
-      .catch((error) => {
-        if (error?.code === 'P2002') {
-          throw new ForbiddenException('Credentials incorrect');
-        }
-        throw error;
-      });
+    return this.prisma.$transaction(async (prisma) => {
+      const user = await prisma.user
+        .create({
+          data: data,
+        })
+        .catch((error) => {
+          if (error?.code === 'P2002') {
+            throw new ForbiddenException('Credentials incorrect');
+          }
+          throw error;
+        });
+
+      if (user.role == Role.ADMIN) {
+        await this.adminService.create({ id: user.id });
+      }
+    });
   }
 
   async findAll() {
