@@ -1,2 +1,3 @@
-Data       | Horas Trabalhadas | Tipo Tarefa | Descrição da Tarefa Realizada 
-02/02/2024           ?             projetar    fazer o design das telas no figma
+Data       | Horas Trabalhadas |      Tipo Tarefa       | Descrição da Tarefa Realizada 
+02/02/2025        2 horas              projetar            fazer o design das telas no figma
+03/02/2025        2 horas          codificar módulo        criação de componentes do frontend
