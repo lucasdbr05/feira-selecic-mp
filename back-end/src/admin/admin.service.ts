@@ -19,6 +19,10 @@ export class AdminService {
   }
 
   async findAll() {
-    return await this.prisma.admin.findMany();
+    return await this.prisma.admin.findMany({
+      include: {
+        user: true,
+      },
+    });
   }
 }

@@ -8,6 +8,7 @@ import { AtGuard } from './auth/guards/at.guard';
 import { RolesGuard } from './auth/guards/roles.guard';
 import { AppController } from './app.controller';
 import { AdminModule } from './admin/admin.module';
+import { SellerModule } from './seller/seller.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { AdminModule } from './admin/admin.module';
     UserModule,
     AuthModule,
     AdminModule,
+    SellerModule,
   ],
   controllers: [AppController],
   providers: [

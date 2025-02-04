@@ -9,12 +9,12 @@ export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
   @Post()
-  create(@Body() createAdminDto: CreateAdminDto) {
-    return this.adminService.create(createAdminDto);
+  async create(@Body() createAdminDto: CreateAdminDto) {
+    return await this.adminService.create(createAdminDto);
   }
 
   @Get()
-  findAll() {
-    return this.adminService.findAll();
+  async findAll() {
+    return await this.adminService.findAll();
   }
 }
