@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
+import { ViacepData } from './types';
 
 @Injectable()
 export class GeocodeService {
@@ -15,26 +16,30 @@ export class GeocodeService {
 
   async geocode(address: string): Promise<any> {
     const addressDetails = await this.getAdressDetails(address);
-    console.log(addressDetails);
     const apiKey = this.config.get<string>('GOOGLE_MAPS_API');
-    const url = `${this.baseUrl}/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
+    const url = `${this.baseUrl}/geocode/json?address=${this.formatMapsAddress(addressDetails)}&key=${apiKey}`;
     return await this.requestData(url);
   }
 
   async getDirections(origin: string, destination: string): Promise<any> {
     const apiKey = this.config.get<string>('GOOGLE_MAPS_API');
-    const url = `${this.baseUrl}/directions/json?origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}&key=${apiKey}`;
+    const originDetails = await this.getAdressDetails(origin);
+    const destinationDetails = await this.getAdressDetails(destination);
+    const url = `${this.baseUrl}/directions/json?origin=${this.formatMapsAddress(originDetails)}&destination=${this.formatMapsAddress(destinationDetails)}&key=${apiKey}`;
     return await this.requestData(url);
   }
 
-  async getAdressDetails(cep: string) {
+  async getAdressDetails(cep: string): Promise<ViacepData> {
     const formatCEP = (cep: string): string => cep.replace(/\D/g, '');
-    console.log(formatCEP(cep));
     const formatedCep = formatCEP(cep);
     const url = `${this.viacepUrl}/${formatedCep}/json/`;
-    return await this.httpService.get(url);
+    return await this.requestData(url);
   }
 
+  private formatMapsAddress(data: ViacepData): string {
+    const address = `${data.logradouro.replace(' ', '+')},+${data.bairro.replace(' ', '+')},+${data.localidade.replace(' ', '+')},+${data.estado.replace(' ', '+')}`;
+    return encodeURIComponent(address);
+  }
   private async requestData(url: string) {
     const res = await this.httpService.get(url);
     const response = await firstValueFrom(res);
