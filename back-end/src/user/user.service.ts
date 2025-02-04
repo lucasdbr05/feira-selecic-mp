@@ -4,12 +4,14 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { Role } from '@prisma/client';
 import { AdminService } from '../admin/admin.service';
+import { SellerService } from '../seller/seller.service';
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly adminService: AdminService,
+    private readonly sellerService: SellerService,
   ) {}
 
   async create(data: CreateUserDto) {
@@ -28,6 +30,7 @@ export class UserService {
       if (user.role == Role.ADMIN) {
         await this.adminService.create({ id: user.id }, prismaTransaction);
       } else if (user.role == Role.SELLER) {
+        await this.sellerService.create({ id: user.id }, prismaTransaction);
       } else if (user.role == Role.CLIENT) {
       }
       return user;
