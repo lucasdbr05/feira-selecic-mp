@@ -6,7 +6,7 @@ import { PrismaService } from '../prisma/prisma.service';
 
 import { AuthDto } from './dto/auth.dto';
 import { JwtPayload, Tokens } from './types';
-import { CreateUserDto } from '../user/dto/create-user.dto';
+import { CreateUserWithRole } from '../user/dto/create-user.dto';
 import { Role } from '@prisma/client';
 import { UserService } from '../user/user.service';
 import { CookieUtils } from './cookie-utils/cookie-utils';
@@ -30,14 +30,13 @@ export class AuthService {
    * @returns A promise that resolves to the tokens for the new user.
    * @throws ForbiddenException if the credentials are incorrect.
    */
-  async signup(data: CreateUserDto): Promise<Tokens> {
+  async signup(data: CreateUserWithRole): Promise<Tokens> {
     const hash = await bcrypt.hash(data.password, this.salt);
 
-    const createUserData: CreateUserDto = {
+    const user = await this.userService.create({
       ...data,
       password: hash,
-    };
-    const user = await this.userService.create(createUserData);
+    });
 
     const tokens = await this.getTokens(user.id, user.email, user.role);
     await this.updateRefreshToken(user.id, tokens.refresh_token);

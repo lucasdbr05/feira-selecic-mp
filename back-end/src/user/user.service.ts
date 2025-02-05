@@ -18,7 +18,11 @@ export class UserService {
 
   async create(data: CreateUserWithRole) {
     const userData: CreateUserDto = {
-      ...data,
+      email: data.email,
+      name: data.email,
+      nickname: data.nickname,
+      password: data.password,
+      role: data.role,
     };
     return this.prisma.$transaction(async (prismaTransaction) => {
       const user = await prismaTransaction.user
@@ -40,7 +44,7 @@ export class UserService {
         await this.clientService.create(
           {
             id: user.id,
-            ...data.client,
+            cep: data.client.cep,
           },
           prismaTransaction,
         );

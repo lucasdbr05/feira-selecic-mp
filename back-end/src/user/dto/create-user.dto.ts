@@ -11,5 +11,5 @@ export class CreateUserDto extends PickType(UserEntity, [
 ]) {}
 
 export class CreateUserWithRole extends CreateUserDto {
-  client?: Omit<CreateClientDto, 'id'>;
+  client?: Pick<CreateClientDto, 'cep'>;
 }
