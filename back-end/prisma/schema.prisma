@@ -64,7 +64,6 @@ model Fair {
   latitude String
   longitude  String
   shops Shop[] @relation()
-  
 }
 
 model Shop {
@@ -79,8 +78,6 @@ model Shop {
   isOpen Boolean
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-
 }
 
 model Product {

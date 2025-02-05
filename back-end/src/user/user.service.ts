@@ -1,24 +1,52 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, CreateUserWithRole } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { Role } from '@prisma/client';
+import { AdminService } from '../admin/admin.service';
+import { SellerService } from '../seller/seller.service';
+import { ClientService } from '../client/client.service';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly adminService: AdminService,
+    private readonly sellerService: SellerService,
+    private readonly clientService: ClientService,
+  ) {}
 
-  async create(data: CreateUserDto) {
-    return await this.prisma.user
-      .create({
-        data: data,
-      })
-      .catch((error) => {
-        if (error?.code === 'P2002') {
-          throw new ForbiddenException('Credentials incorrect');
-        }
-        throw error;
-      });
+  async create(data: CreateUserWithRole) {
+    const userData: CreateUserDto = {
+      ...data,
+    };
+    return this.prisma.$transaction(async (prismaTransaction) => {
+      const user = await prismaTransaction.user
+        .create({
+          data: userData,
+        })
+        .catch((error) => {
+          if (error?.code === 'P2002') {
+            throw new ForbiddenException('Credentials incorrect');
+          }
+          throw error;
+        });
+
+      if (user.role == Role.ADMIN) {
+        await this.adminService.create({ id: user.id }, prismaTransaction);
+      } else if (user.role == Role.SELLER) {
+        await this.sellerService.create({ id: user.id }, prismaTransaction);
+      } else if (user.role == Role.CLIENT) {
+        await this.clientService.create(
+          {
+            id: user.id,
+            ...data.client,
+          },
+          prismaTransaction,
+        );
+      }
+      return user;
+    });
   }
 
   async findAll() {
