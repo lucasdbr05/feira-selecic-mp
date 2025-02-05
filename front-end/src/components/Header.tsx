@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent } from 'react';
-import { Search, /*ShoppingCart*/ User, Menu, MapPin } from 'lucide-react';
+import { Search, User, Menu, MapPin } from 'lucide-react';
 
 interface HeaderProps {
   searchQuery: string;
@@ -58,18 +58,8 @@ export default function Header({ searchQuery, onSearchChange, openLoginOrLogoutM
             </button>
           </div> 
 
-          {/* Ícones a direira*/}
+          {/* Ícones a direita*/}
           <div className="flex items-center">
-            {/*<button className="p-2 rounded-xl hover:bg-gray-50 transition-colors">
-              <div className="relative">
-                <ShoppingCart className="h-5 w-5 text-gray-600" />
-                {cartCount > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 bg-emerald-500 text-white text-xs font-medium rounded-full h-4 w-4 flex items-center justify-center">
-                    {cartCount}
-                  </span>
-                )}
-              </div>
-            </button>*/}
             <button className="ml-3 p-2 rounded-xl hover:bg-gray-50 transition-colors"> 
               <User className="h-5 w-5 text-gray-600" 
               onClick={() => openLoginOrLogoutModal ? openLoginOrLogoutModal() : null}

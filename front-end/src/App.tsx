@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo} from 'react';
 import Header from './components/Header';
 import Filters from './components/Filters';
 import FairsCard from './components/FairsCard';
@@ -9,7 +9,7 @@ import StoreScreen from './components/StoreScreen';
 
 import type { Fair } from './types';
 import useUserData from './hooks/useUser';
-import { UserStored } from './api-client/types';
+
 
 const MOCK_FAIRS: Fair[] = [
   {
@@ -75,7 +75,7 @@ function App() {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [showFair, setShowFair] = useState(false);
   const [selectedFair, setSelectedFair] = useState<Fair | null>(null);
-  const [sortBy, setSortBy] = useState('relevance');
+  const [sortBy] = useState('relevance');
   const [filters, setFilters] = useState<FilterState>({
     priceRange: { min: null, max: null },
     distance: 50,

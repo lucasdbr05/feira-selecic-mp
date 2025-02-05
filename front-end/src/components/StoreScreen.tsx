@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Star, MapPin, Clock, Tag, Phone, Mail, DollarSign, ChevronLeft} from 'lucide-react';
-//import Header from './Header';
+import Header from './Header';
 import ReviewModal from './ReviewModal';
+import useUserData from '../hooks/useUser';
+import LoginModal from './LoginModal';
+import LogoutModal from './LogoutModal';
 
 interface StoreScreenProps {
   onBack: () => void;
@@ -22,6 +25,10 @@ interface StoreScreenProps {
 const StoreScreen = ({ onBack, storeData = defaultStoreData }: StoreScreenProps) => {
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const user = useUserData()
 
   const reviews = [
     {
@@ -44,7 +51,20 @@ const StoreScreen = ({ onBack, storeData = defaultStoreData }: StoreScreenProps)
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/*<Header/>*/}
+
+      <Header
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}  
+        openLoginOrLogoutModal={() => {
+          if(!user ) {
+            console.log("-->", !user)
+            setIsLoginModalOpen(true)
+          }
+          else {
+            setIsLogoutModalOpen(!!user)
+          } 
+        }}
+      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Botão Voltar */}
@@ -200,10 +220,23 @@ const StoreScreen = ({ onBack, storeData = defaultStoreData }: StoreScreenProps)
           </div>
         </section>
       </div>
+
       <ReviewModal
         isOpen={isReviewModalOpen}
         onClose={() => setIsReviewModalOpen(false)}
       />
+
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+      />
+
+      <LogoutModal
+        isOpen={isLogoutModalOpen}
+        onClose={() => setIsLogoutModalOpen(false)}
+        user={user}
+      />
+
     </div>
   );
 };

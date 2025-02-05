@@ -46,8 +46,11 @@ export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
       <div className="bg-white rounded-xl p-6 w-full max-w-md">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-medium text-gray-900">Cadastro</h2>
-          <button onClick={onClose}>
-            <X className="w-6 h-6 text-gray-900" />
+          <button 
+            onClick={onClose}
+            className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+            <X className="w-5 h-5 text-gray-400" />
           </button>
         </div>
 
