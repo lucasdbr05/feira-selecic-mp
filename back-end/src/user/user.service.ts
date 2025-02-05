@@ -20,11 +20,11 @@ export class UserService {
     const userData: CreateUserDto = {
       email: data.email,
       name: data.name,
-      nickname: data.nickname,
+      nickname: new Date().toISOString(), //TODO: remove this shit
       password: data.password,
       role: data.role,
     };
-    return this.prisma.$transaction(async (prismaTransaction) => {
+    return await this.prisma.$transaction(async (prismaTransaction) => {
       const user = await prismaTransaction.user
         .create({
           data: userData,
