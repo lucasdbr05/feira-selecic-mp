@@ -1,3 +1,5 @@
-Data       | Horas Trabalhadas |      Tipo Tarefa       | Descrição da Tarefa Realizada 
-02/02/2025        2 horas              projetar            fazer o design das telas no figma
-03/02/2025        2 horas          codificar módulo        criação de componentes do frontend
+Data       | Horas Trabalhadas |        Tipo Tarefa        |  Descrição da Tarefa Realizada 
+02/02/2025        2 horas                projetar             fazer o design das telas no figma
+03/02/2025        2 horas            codificar módulo         criação de componentes do frontend (Header.tsx e LoginModal.tsx)
+04/02/2025        4 horas            codificar módulo         criação de componentes do frontend (StoreScreen.tsx e ReviewModal.tsx)
+05/02/2025        2 horas         revisar código do módulo    revisão dos componentes do frontend

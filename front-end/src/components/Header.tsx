@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent } from 'react';
-import { Search, ShoppingCart, User, Menu, MapPin } from 'lucide-react';
+import { Search, User, Menu, MapPin } from 'lucide-react';
 
 interface HeaderProps {
   searchQuery: string;
@@ -8,7 +8,7 @@ interface HeaderProps {
 }
 
 export default function Header({ searchQuery, onSearchChange, openLoginOrLogoutModal }: HeaderProps) {
-  const [cartCount] = useState(0);
+  //const [cartCount] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 
@@ -43,14 +43,6 @@ export default function Header({ searchQuery, onSearchChange, openLoginOrLogoutM
                 className="block w-full pl-9 pr-3 py-2 border-0 ring-1 ring-gray-200 rounded-xl leading-5 bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 sm:text-sm transition-shadow"
                 placeholder="Buscar produtos, feiras ou vendedores..."
               />
-              <div className="absolute inset-y-0 right-0 flex items-center">
-                <select className="h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-xl focus:ring-emerald-500">
-                  <option>Todas</option>
-                  <option>Frutas</option>
-                  <option>Verduras</option>
-                  <option>Orgânicos</option>
-                </select>
-              </div>
             </div>
             <button className="ml-2 px-4 py-2 bg-emerald-50 text-emerald-700 rounded-xl hover:bg-emerald-100 flex items-center transition-colors">
               <MapPin className="h-4 w-4 mr-1.5" />
@@ -58,19 +50,12 @@ export default function Header({ searchQuery, onSearchChange, openLoginOrLogoutM
             </button>
           </div> 
 
+          {/* Ícones a direita*/}
           <div className="flex items-center">
-            <button className="p-2 rounded-xl hover:bg-gray-50 transition-colors">
-              <div className="relative">
-                <ShoppingCart className="h-5 w-5 text-gray-600" />
-                {cartCount > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 bg-emerald-500 text-white text-xs font-medium rounded-full h-4 w-4 flex items-center justify-center">
-                    {cartCount}
-                  </span>
-                )}
-              </div>
-            </button>
             <button className="ml-3 p-2 rounded-xl hover:bg-gray-50 transition-colors"> 
-              <User className="h-5 w-5 text-gray-600" onClick={() => openLoginOrLogoutModal ? openLoginOrLogoutModal() : null}/>
+              <User className="h-5 w-5 text-gray-600" 
+              onClick={() => openLoginOrLogoutModal ? openLoginOrLogoutModal() : null}
+              />
             </button>
             <button 
               className="ml-3 p-2 rounded-xl hover:bg-gray-50 transition-colors md:hidden"

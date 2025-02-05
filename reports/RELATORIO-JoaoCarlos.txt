@@ -1,0 +1,7 @@
+Data       | Horas Trabalhadas |        Tipo Tarefa        |  Descrição da Tarefa Realizada 
+02/02/2025        2 horas                projetar             incializando projeto no figma
+02/02/2025        2 horas         revisar especificações      planning com grupo para organização e escolha de tarefas
+03/02/2025        6 horas            codificar módulo         inicializando arquivos e dependênncias do front-end
+04/02/2025        4 horas            codificar módulo         criação de componente main do front-end App.tsx
+05/02/2025        2 horas         revisar código do módulo    revisão e edição de componentes
+05/02/2025        2 horas            projetar                 revisão de tarefas e configuração do Trello

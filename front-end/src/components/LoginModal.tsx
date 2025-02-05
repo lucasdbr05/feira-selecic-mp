@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { X, Mail, Lock } from 'lucide-react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Api } from '../api-client/api';
+import RegisterModal from './RegisterModal';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -15,6 +16,7 @@ interface IFormInput {
 
 export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const api = new Api();
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>();
   const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) => {
     api.login(data);
@@ -72,7 +74,35 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             Entrar
           </button>
         </form>
+
+        <div className="mt-6">
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white text-gray-500">Ou</span>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <button
+              type="button"
+              className="w-full py-2.5 px-4 ring-1 ring-gray-200 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+              onClick={() => setIsRegisterModalOpen(true)}
+            >
+              Cadastre-se
+            </button>
+          </div>
+        </div>
       </div>
+
+      {/*Modal de Register - Adicionado aqui*/}
+      <RegisterModal
+        isOpen={isRegisterModalOpen}
+        onClose={() => setIsRegisterModalOpen(false)}
+      />
+
     </div>
   );
 }
