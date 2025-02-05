@@ -1,11 +1,13 @@
-import api from "./client";
-import { CreateUserData } from "./types";
+import { CreateUserData, LoginData } from "./types";
 import { apiClient } from "./wrapper";
 
 const api = apiClient
 export class Api {
     async createUser(data: CreateUserData) {
-        console.log(data)
         return api.post("/auth/signup", data)
     } 
+
+    async login(data: LoginData) {
+        return api.post("/auth/login", data)
+    }
 }

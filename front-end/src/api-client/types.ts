@@ -1,3 +1,8 @@
+export type LoginData = {
+    email: string;
+    password: string;
+}
+
 export type CreateUserData = {
   email: string;
   name: string;

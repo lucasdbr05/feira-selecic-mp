@@ -4,9 +4,10 @@ import { Search, ShoppingCart, User, Menu, MapPin } from 'lucide-react';
 interface HeaderProps {
   searchQuery: string;
   onSearchChange: (value: string) => void;
+  openLoginModal?: () => void;
 }
 
-export default function Header({ searchQuery, onSearchChange }: HeaderProps) {
+export default function Header({ searchQuery, onSearchChange, openLoginModal }: HeaderProps) {
   const [cartCount] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -68,7 +69,7 @@ export default function Header({ searchQuery, onSearchChange }: HeaderProps) {
               </div>
             </button>
             <button className="ml-3 p-2 rounded-xl hover:bg-gray-50 transition-colors">
-              <User className="h-5 w-5 text-gray-600" />
+              <User className="h-5 w-5 text-gray-600" onClick={() => openLoginModal ? openLoginModal() : null}/>
             </button>
             <button 
               className="ml-3 p-2 rounded-xl hover:bg-gray-50 transition-colors md:hidden"
