@@ -9,6 +9,8 @@ import { JwtPayload, Tokens } from './types';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { Role } from '@prisma/client';
 import { UserService } from '../user/user.service';
+import { CookieUtils } from './cookie-utils/cookie-utils';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -151,7 +153,7 @@ export class AuthService {
     const [at, rt] = await Promise.all([
       this.jwtService.signAsync(jwtPayload, {
         secret: this.config.get<string>('AT_SECRET'),
-        expiresIn: '15m',
+        expiresIn: '1h',
       }),
       this.jwtService.signAsync(jwtPayload, {
         secret: this.config.get<string>('RT_SECRET'),
@@ -163,5 +165,24 @@ export class AuthService {
       access_token: at,
       refresh_token: rt,
     };
+  }
+
+  setAuthCookies(res: Response, tokens: Tokens) {
+    CookieUtils.setHeaderWithCookie(
+      res,
+      { access_token: tokens.access_token },
+      this.config.get<number>('AT_EXPIRATION'),
+    );
+
+    CookieUtils.setHeaderWithCookie(
+      res,
+      { refresh_token: tokens.refresh_token },
+      this.config.get<number>('RT_EXPIRATION'),
+    );
+  }
+
+  clearAuthCookies(res: Response) {
+    CookieUtils.clearCookie(res, 'access_token');
+    CookieUtils.clearCookie(res, 'refresh_token');
   }
 }
