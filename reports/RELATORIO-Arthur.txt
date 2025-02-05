@@ -1,2 +1,2 @@
 Data       | Horas Trabalhadas | Tipo Tarefa | Descrição da Tarefa Realizada
-03/02/2025 |         1         | Diagrama    | Criação do diagrama
+03/02/2025 |         4         | Diagrama    | Criação do diagrama
