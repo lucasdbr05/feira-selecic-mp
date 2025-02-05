@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -63,5 +64,15 @@ export class AuthController {
     const tokens = await this.authService.refreshTokens(userId, refreshToken);
     this.authService.setAuthCookies(res, tokens);
     return tokens;
+  }
+
+  @Get('active')
+  @HttpCode(HttpStatus.OK)
+  async getActive(
+    @Res({ passthrough: true }) res: Response,
+    @GetUserId() userId: number,
+  ) {
+    const user = await this.authService.getActive(userId);
+    return user;
   }
 }

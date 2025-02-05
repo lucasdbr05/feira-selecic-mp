@@ -166,6 +166,15 @@ export class AuthService {
     };
   }
 
+  async getActive(id: number) {
+    const user = await this.userService.findOne(id);
+    return {
+      email: user.email,
+      name: user.name,
+      id: user.id,
+    };
+  }
+
   setAuthCookies(res: Response, tokens: Tokens) {
     CookieUtils.setHeaderWithCookie(
       res,

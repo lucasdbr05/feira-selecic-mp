@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { CreateFairDto } from './dto/create-fair.dto';
 import { UpdateFairDto } from './dto/update-fair.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class FairService {
   constructor(private readonly prisma: PrismaService) {}
-  
+
   async create(data: CreateFairDto) {
     return await this.prisma.fair.create({
-        data: data,
-    })
+      data: data,
+    });
   }
 
   async findAll() {
