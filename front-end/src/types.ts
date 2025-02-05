@@ -1,17 +1,13 @@
-export interface Product {
-  id: number;
+export interface Fair {
+  id: string;
   name: string;
-  price: number;
-  image: string;
-  seller: string;
   fairName: string;
   location: string;
   distance: number;
   available: boolean;
   rating: number;
-  category: string;
+  tags: string[];
+  averagePrice: number;
+  image: string;
 }
 
-export interface CartItem extends Product {
-  quantity: number;
-}

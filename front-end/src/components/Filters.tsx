@@ -43,10 +43,12 @@ export default function Filters({ filters, onChange }: FiltersProps) {
     });
   };
 
-  const handleRatingChange = (rating: number) => {
+  // Implementado filtro por rating via radio buttons
+  const handleRatingChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const selectedRating = Number(e.target.value);
     onChange({
       ...filters,
-      rating: filters.rating === rating ? null : rating
+      rating: selectedRating === 0 ? null : selectedRating
     });
   };
 
@@ -122,28 +124,39 @@ export default function Filters({ filters, onChange }: FiltersProps) {
         </div>
       </div>
 
-      {/* Avaliação do Vendedor */}
+      {/* Avaliação */}
       <div>
-        <h3 className="text-sm font-medium text-gray-700 mb-3">Avaliação do Vendedor</h3>
+        <h3 className="text-sm font-medium text-gray-700 mb-3">Avaliação</h3>
         <div className="space-y-2">
           {[5, 4, 3, 2, 1].map((rating) => (
             <label key={rating} className="flex items-center">
               <input
-                type="checkbox"
+                type="radio"
+                name="rating"
+                value={rating}
                 checked={filters.rating === rating}
-                onChange={() => handleRatingChange(rating)}
-                className="rounded text-emerald-500 focus:ring-emerald-500" />
+                onChange={handleRatingChange}
+                className="rounded text-emerald-500 focus:ring-emerald-500"
+              />
               <span className="ml-2 flex items-center text-sm text-gray-600">
                 {Array.from({ length: rating }).map((_, i) => (
-                  <Star
-                    key={i}
-                    className="h-3.5 w-3.5 text-yellow-400 fill-current"
-                  />
+                  <Star key={i} className="h-4 w-4 text-yellow-400" />
                 ))}
                 <span className="ml-1">ou mais</span>
               </span>
             </label>
           ))}
+          <label className="flex items-center">
+            <input
+              type="radio"
+              name="rating"
+              value="0"
+              checked={filters.rating === null}
+              onChange={handleRatingChange}
+              className="rounded text-emerald-500 focus:ring-emerald-500"
+            />
+            <span className="ml-2 text-sm text-gray-600">Qualquer avaliação</span>
+          </label>
         </div>
       </div>
 
