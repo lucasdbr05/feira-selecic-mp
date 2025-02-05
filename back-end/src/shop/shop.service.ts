@@ -32,7 +32,7 @@ export class ShopService {
 
   async remove(id: number) {
     return await this.prisma.shop.delete({
-      where: { id }
+      where: { id },
     });
   }
 }
