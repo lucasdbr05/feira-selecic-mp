@@ -22,7 +22,6 @@ api.interceptors.response.use(
         console.log(_)
         Cookies.remove('access_token');
         Cookies.remove('refresh_token');
-        window.location.href = '/login';
       }
     }
 
