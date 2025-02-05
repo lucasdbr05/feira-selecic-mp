@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent } from 'react';
-import { Search, ShoppingCart, User, Menu, MapPin } from 'lucide-react';
+import { Search, /*ShoppingCart*/ User, Menu, MapPin } from 'lucide-react';
 
 interface HeaderProps {
   searchQuery: string;
@@ -8,7 +8,7 @@ interface HeaderProps {
 }
 
 export default function Header({ searchQuery, onSearchChange, openLoginOrLogoutModal }: HeaderProps) {
-  const [cartCount] = useState(0);
+  //const [cartCount] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 
@@ -58,8 +58,9 @@ export default function Header({ searchQuery, onSearchChange, openLoginOrLogoutM
             </button>
           </div> 
 
+          {/* Ícones a direira*/}
           <div className="flex items-center">
-            <button className="p-2 rounded-xl hover:bg-gray-50 transition-colors">
+            {/*<button className="p-2 rounded-xl hover:bg-gray-50 transition-colors">
               <div className="relative">
                 <ShoppingCart className="h-5 w-5 text-gray-600" />
                 {cartCount > 0 && (
@@ -68,9 +69,11 @@ export default function Header({ searchQuery, onSearchChange, openLoginOrLogoutM
                   </span>
                 )}
               </div>
-            </button>
+            </button>*/}
             <button className="ml-3 p-2 rounded-xl hover:bg-gray-50 transition-colors"> 
-              <User className="h-5 w-5 text-gray-600" onClick={() => openLoginOrLogoutModal ? openLoginOrLogoutModal() : null}/>
+              <User className="h-5 w-5 text-gray-600" 
+              onClick={() => openLoginOrLogoutModal ? openLoginOrLogoutModal() : null}
+              />
             </button>
             <button 
               className="ml-3 p-2 rounded-xl hover:bg-gray-50 transition-colors md:hidden"

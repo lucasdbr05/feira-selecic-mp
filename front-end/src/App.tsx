@@ -4,8 +4,10 @@ import Filters from './components/Filters';
 import FairsCard from './components/FairsCard';
 import LoginModal from './components/LoginModal';
 import RegisterModal from './components/RegisterModal';
-import type { Fair } from './types';
 import LogoutModal from './components/LogoutModal';
+import StoreScreen from './components/StoreScreen';
+
+import type { Fair } from './types';
 import useUserData from './hooks/useUser';
 import { UserStored } from './api-client/types';
 
@@ -71,6 +73,8 @@ function App() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const [showFair, setShowFair] = useState(false);
+  const [selectedFair, setSelectedFair] = useState<Fair | null>(null);
   const [sortBy, setSortBy] = useState('relevance');
   const [filters, setFilters] = useState<FilterState>({
     priceRange: { min: null, max: null },
@@ -80,8 +84,9 @@ function App() {
   });
   const [searchQuery, setSearchQuery] = useState('');
 
-  const handleAddToCart = (fair: Fair) => {
-    setIsRegisterModalOpen(true);
+  const handleVisitFair = (fair: Fair) => {
+    setSelectedFair(fair);
+    setShowFair(true);
   };
 
   const filteredFairs = useMemo(() => {
@@ -132,6 +137,26 @@ function App() {
   }, [filters, sortBy, searchQuery]);
   const user = useUserData()
 
+  if (showFair && selectedFair) {
+    return (
+      <StoreScreen
+        onBack={() => setShowFair(false)}
+        storeData={{
+          name: selectedFair.name,
+          rating: selectedFair.rating,
+          totalReviews: 125,
+          address: `${selectedFair.fairName} - ${selectedFair.location}`,
+          schedule: "Aberto: Terça a Domingo, 06:00 - 14:00",
+          tags: selectedFair.tags,
+          phone: "61 994567890",
+          email: `${selectedFair.name.toLowerCase().replace(/\s/g, '')}@gmail.com`,
+          priceRange: "Preço médio",
+          image: selectedFair.image
+        }}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header 
@@ -165,7 +190,7 @@ function App() {
                 <FairsCard
                   key={fair.id}
                   fair={fair}
-                  onAddToCart={handleAddToCart}
+                  onVisitFair={handleVisitFair}
                 />
               ))}
             </div>

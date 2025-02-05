@@ -50,6 +50,7 @@ export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
             <X className="w-6 h-6 text-gray-900" />
           </button>
         </div>
+
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
             <label className="block text-gray-700">Nome</label>
@@ -65,6 +66,7 @@ export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
             </div>
             {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
           </div>
+
           <div className="mb-4">
             <label className="block text-gray-700">Email</label>
             <div className="relative">
@@ -79,6 +81,7 @@ export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
             </div>
             {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
           </div>
+
           <div className="mb-4">
             <label className="block text-gray-700">Senha</label>
             <div className="relative">
@@ -94,6 +97,7 @@ export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
             </div>
             {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
           </div>
+
           <div className="mb-4">
             <label className="block text-gray-700">Endereço</label>
             <div className="relative">
@@ -108,6 +112,7 @@ export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
             </div>
             {errors.address && <p className="text-red-500 text-sm">{errors.address.message}</p>}
           </div>
+
           <div className="mb-4">
             <label className="block text-gray-700">CEP</label>
             <input
@@ -118,6 +123,7 @@ export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
             />
             {errors.cep && <p className="text-red-500 text-sm">{errors.cep.message}</p>}
           </div>
+
           <div className="mb-4">
             <label className="block text-gray-700">Sou feirante</label>
             <input
@@ -127,6 +133,7 @@ export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
               className="mr-2"
             />
           </div>
+
           {isFeirante && (
             <>
               <div className="mb-4">
@@ -144,6 +151,7 @@ export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
                 </div>
                 {errors.feiraLocation && <p className="text-red-500 text-sm">{errors.feiraLocation.message}</p>}
               </div>
+
               <div className="mb-4">
                 <label className="block text-gray-700">Nome da Banca</label>
                 <div className="relative">

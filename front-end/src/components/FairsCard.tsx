@@ -1,13 +1,13 @@
 import React from 'react';
-import { MapPin, Star } from 'lucide-react';
+import { MapPin, Star, Eye } from 'lucide-react';
 import type { Fair } from '../types';
 
 interface FairCardProps {
   fair: Fair;
-  onAddToCart: (fair: Fair) => void;
+  onVisitFair: (fair: Fair) => void;
 }
 
-export default function FairsCard({ fair, onAddToCart }: FairCardProps) {
+export default function FairsCard({ fair, onVisitFair }: FairCardProps) {
   return (
     <div className="group bg-white rounded-xl ring-1 ring-gray-200 overflow-hidden hover:ring-2 hover:ring-emerald-500 transition-all duration-300">
       <div className="relative">
@@ -33,10 +33,11 @@ export default function FairsCard({ fair, onAddToCart }: FairCardProps) {
           <span>{fair.distance}km</span>
         </div>
         <button
-          onClick={() => onAddToCart(fair)}
+          onClick={() => onVisitFair(fair)}
           className="mt-4 w-full py-2 px-4 rounded-md flex items-center justify-center space-x-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-medium transition-colors"
         >
-          <span>Adicionar ao Carrinho</span>
+          <Eye className="h-4 w-4" />
+          <span>Visitar Loja</span>
         </button>
       </div>
     </div>
