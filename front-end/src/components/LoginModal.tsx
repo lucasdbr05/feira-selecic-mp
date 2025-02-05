@@ -17,7 +17,8 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const api = new Api();
   const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>();
   const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) => {
-    return api.login(data);
+    api.login(data);
+    onClose();
   };
 
   if (!isOpen) return null;

@@ -1,0 +1,24 @@
+import { useEffect, useState } from 'react';
+import { Api } from '../api-client/api';
+import { UserStored } from '../api-client/types';
+
+const useUserData = () => {
+  const api = new Api()
+  const [userData, setUserData] = useState<UserStored | undefined>(undefined);
+  useEffect(() => {
+      const fetchUserData = async () => {
+        const user =await api.getUserActive().then(res => res).catch(err => undefined);
+
+        if(!user) {
+            return undefined
+        }
+        setUserData(user)
+        return user;
+    };
+
+    fetchUserData();
+  }, []);
+
+  return userData;
+};
+export default useUserData;

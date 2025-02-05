@@ -16,6 +16,12 @@ export type CreateClientData = {
     cep: string
 }
 
+export type UserStored = {
+    id: number,
+    email: string,
+    name: string,
+} 
+
 export enum Role {
     CLIENT = "CLIENT", 
     SELLER = "SELLER",

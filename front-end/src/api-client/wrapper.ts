@@ -84,7 +84,7 @@ export default class ApiClient implements IApiClient {
       .catch((err) => this.handleError(err));
   }
 
-  private handleError(error): never {
+  private handleError(error: any): never {
     throw error;
   }
 

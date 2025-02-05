@@ -1,4 +1,4 @@
-import { CreateUserData, LoginData } from "./types";
+import { CreateUserData, LoginData, UserStored } from "./types";
 import { apiClient } from "./wrapper";
 
 const api = apiClient
@@ -9,5 +9,13 @@ export class Api {
 
     async login(data: LoginData) {
         return api.post("/auth/login", data)
+    }
+
+    async logout() {
+        return api.post("/auth/logout", {})
+    }
+
+    async getUserActive() {
+        return api.get<UserStored>("/auth/active")
     }
 }

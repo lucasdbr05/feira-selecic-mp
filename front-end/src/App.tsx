@@ -1,10 +1,13 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Header from './components/Header';
 import Filters from './components/Filters';
 import FairsCard from './components/FairsCard';
 import LoginModal from './components/LoginModal';
 import RegisterModal from './components/RegisterModal';
 import type { Fair } from './types';
+import LogoutModal from './components/LogoutModal';
+import useUserData from './hooks/useUser';
+import { UserStored } from './api-client/types';
 
 const MOCK_FAIRS: Fair[] = [
   {
@@ -66,6 +69,7 @@ interface FilterState {
 
 function App() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [sortBy, setSortBy] = useState('relevance');
   const [filters, setFilters] = useState<FilterState>({
@@ -126,10 +130,20 @@ function App() {
       }
     });
   }, [filters, sortBy, searchQuery]);
+  const user = useUserData()
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header searchQuery={searchQuery} onSearchChange={setSearchQuery}  openLoginModal={() => {setIsLoginModalOpen(!isLoginModalOpen)}}/>
+      <Header 
+        searchQuery={searchQuery} 
+        onSearchChange={setSearchQuery}  
+        openLoginOrLogoutModal={() => {
+          if(user) 
+            setIsLoginModalOpen(!isLoginModalOpen)
+          else 
+            setIsLogoutModalOpen(!isLogoutModalOpen)
+        }}
+      />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
@@ -159,6 +173,11 @@ function App() {
       <LoginModal
         isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
+      />
+      <LogoutModal
+        isOpen={isLogoutModalOpen}
+        onClose={() => setIsLogoutModalOpen(false)}
+        user={user}
       />
       <RegisterModal
         isOpen={isRegisterModalOpen}

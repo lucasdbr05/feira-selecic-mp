@@ -29,7 +29,7 @@ export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
       name: data.name,
       nickname: "fluminense",
       password: data.password,
-      role: Role.CLIENT,
+      role: isFeirante ? Role.SELLER : Role.CLIENT,
       client: {
         cep: data.cep
       }
@@ -119,7 +119,7 @@ export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
             {errors.cep && <p className="text-red-500 text-sm">{errors.cep.message}</p>}
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700">Feirante</label>
+            <label className="block text-gray-700">Sou feirante</label>
             <input
               type="checkbox"
               checked={isFeirante}
