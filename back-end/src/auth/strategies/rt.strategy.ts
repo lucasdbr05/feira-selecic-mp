@@ -4,12 +4,15 @@ import { Request } from 'express';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtPayload, JwtPayloadWithRt } from '../types/index';
+import { CookieUtils } from '../cookie-utils/cookie-utils';
 
 @Injectable()
 export class RtStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
   constructor(config: ConfigService) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (req) => CookieUtils.getCookieValue(req, 'refresh_token'),
+      ]),
       secretOrKey: config.get<string>('RT_SECRET'),
       passReqToCallback: true,
     });
