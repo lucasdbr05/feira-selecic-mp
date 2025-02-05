@@ -12,6 +12,7 @@ import { SellerModule } from './seller/seller.module';
 import { ClientModule } from './client/client.module';
 import { FairModule } from './fair/fair.module';
 import { ShopModule } from './shop/shop.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ShopModule } from './shop/shop.module';
     ClientModule,
     FairModule,
     ShopModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [

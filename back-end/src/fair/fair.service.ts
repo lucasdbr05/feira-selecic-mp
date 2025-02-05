@@ -32,7 +32,7 @@ export class FairService {
 
   async remove(id: number) {
     return await this.prisma.fair.delete({
-      where: { id }
+      where: { id },
     });
   }
 }
