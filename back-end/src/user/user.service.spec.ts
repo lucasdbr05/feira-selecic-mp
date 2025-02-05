@@ -1,11 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from './user.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserWithRole } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { mock, mockReset } from 'jest-mock-extended';
 import { UserEntity } from './entities/user.entity';
 import { TestUtils } from '../commom/utils/test-utils';
+import { AdminService } from '../admin/admin.service';
+import { ClientService } from '../client/client.service';
+import { SellerService } from '../seller/seller.service';
+import { Role } from '@prisma/client';
+import { AdminEntity } from '../admin/entities/admin.entity';
+import { ClientEntity } from '../client/entities/client.entity';
+import { SellerEntity } from '../seller/entities/seller.entity';
 
 describe('UserService', () => {
   let service: UserService;
@@ -20,15 +27,23 @@ describe('UserService', () => {
       delete: jest.fn(),
     },
   });
+  const adminServiceMock = mock<AdminService>();
+  const clientServiceMock = mock<ClientService>();
+  const sellerServiceMock = mock<SellerService>();
 
   beforeEach(async () => {
     mockReset(prismaServiceMock);
     jest.restoreAllMocks();
-
+    prismaServiceMock.$transaction.mockImplementation((cb) =>
+      cb(prismaServiceMock),
+    );
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UserService,
         { provide: PrismaService, useValue: prismaServiceMock },
+        { provide: AdminService, useValue: adminServiceMock },
+        { provide: ClientService, useValue: clientServiceMock },
+        { provide: SellerService, useValue: sellerServiceMock },
       ],
     }).compile();
 
@@ -40,21 +55,92 @@ describe('UserService', () => {
   });
 
   describe('create', () => {
-    let user: UserEntity;
-    let createUserDto: CreateUserDto;
+    let user: UserEntity & {
+      admin: AdminEntity;
+      client: ClientEntity;
+      seller: SellerEntity;
+    };
+    let userRes: Partial<UserEntity>;
+    let createUserDto: CreateUserWithRole;
     beforeEach(() => {
-      user = TestUtils.genUser();
-      createUserDto = {
-        ...user,
+      const newUser = TestUtils.genUser();
+      user = {
+        ...newUser,
+        admin: { id: newUser.id },
+        seller: { id: newUser.id },
+        client: {
+          id: newUser.id,
+          cep: '72880558',
+          latitude: '0.00',
+          longitude: '0.00',
+        },
       };
-      prismaServiceMock.user.create.mockResolvedValue(user);
+      userRes = {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        password: user.password,
+        nickname: user.nickname,
+        role: user.role,
+      };
+      createUserDto = {
+        email: newUser.email,
+        name: newUser.name,
+        nickname: newUser.name,
+        password: newUser.password,
+        role: Role.ADMIN,
+      };
+      adminServiceMock.create.mockResolvedValue(user);
+      sellerServiceMock.create.mockResolvedValue(user);
+      clientServiceMock.create.mockResolvedValue(user.client);
+      prismaServiceMock.user.create.mockResolvedValue(userRes);
     });
 
     it('should create a new user', async () => {
       const result = await service.create(createUserDto);
-      expect(result).toEqual(user);
-      expect(prismaServiceMock.user.create).toHaveBeenCalledWith({
-        data: createUserDto,
+      expect(result).toEqual(userRes);
+      expect(prismaServiceMock.user.create).toHaveBeenCalledWith(
+        {
+          data: createUserDto,
+        },
+        prismaServiceMock,
+      );
+    });
+
+    it('should create a admin if user role is admin', async () => {
+      await service.create({
+        ...createUserDto,
+        role: Role.ADMIN,
+      });
+      expect(adminServiceMock.create).toHaveBeenCalledWith(
+        {
+          id: user.id,
+        },
+        prismaServiceMock,
+      );
+    });
+
+    it('should create a seller if user role is seller', async () => {
+      await service.create({
+        ...createUserDto,
+        role: Role.SELLER,
+        client: undefined,
+      });
+      expect(sellerServiceMock.create).toHaveBeenCalledWith({
+        id: user.id,
+      });
+    });
+
+    it('should create a client if user role is client', async () => {
+      await service.create({
+        ...createUserDto,
+        role: Role.CLIENT,
+        client: user.client,
+      });
+
+      expect(clientServiceMock.create).toHaveBeenCalledWith({
+        id: user.id,
+        cep: '72880558',
       });
     });
   });

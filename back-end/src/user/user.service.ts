@@ -19,7 +19,7 @@ export class UserService {
   async create(data: CreateUserWithRole) {
     const userData: CreateUserDto = {
       email: data.email,
-      name: data.email,
+      name: data.name,
       nickname: data.nickname,
       password: data.password,
       role: data.role,
