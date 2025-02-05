@@ -8,9 +8,10 @@ const useUserData = () => {
   useEffect(() => {
       const fetchUserData = async () => {
         const user =await api.getUserActive().then(res => res).catch(err => undefined);
-
+        console.log(user)
         if(!user) {
-            return undefined
+            setUserData(undefined)
+            return
         }
         setUserData(user)
         return user;
