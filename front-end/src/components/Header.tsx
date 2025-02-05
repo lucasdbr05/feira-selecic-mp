@@ -43,14 +43,6 @@ export default function Header({ searchQuery, onSearchChange, openLoginOrLogoutM
                 className="block w-full pl-9 pr-3 py-2 border-0 ring-1 ring-gray-200 rounded-xl leading-5 bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 sm:text-sm transition-shadow"
                 placeholder="Buscar produtos, feiras ou vendedores..."
               />
-              <div className="absolute inset-y-0 right-0 flex items-center">
-                <select className="h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-xl focus:ring-emerald-500">
-                  <option>Todas</option>
-                  <option>Frutas</option>
-                  <option>Verduras</option>
-                  <option>Orgânicos</option>
-                </select>
-              </div>
             </div>
             <button className="ml-2 px-4 py-2 bg-emerald-50 text-emerald-700 rounded-xl hover:bg-emerald-100 flex items-center transition-colors">
               <MapPin className="h-4 w-4 mr-1.5" />
