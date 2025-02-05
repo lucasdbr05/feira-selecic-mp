@@ -28,7 +28,7 @@ export class AuthController {
   }
 
   @Public()
-  @Post('signin')
+  @Post('login')
   @HttpCode(HttpStatus.OK)
   async signin(
     @Res({ passthrough: true }) res: Response,
