@@ -85,7 +85,7 @@ const MOCK_REVIEWS = [
   },
 ];
 
-const PerfilScreen = () => {
+const ProfileScreen = () => {
   const [activeSection, setActiveSection] = useState('perfil');
   const [showFair, setShowFair] = useState(false);
   const [selectedFair, setSelectedFair] = useState<Fair | null>(null);
@@ -240,4 +240,4 @@ const PerfilScreen = () => {
   );
 };
 
-export default PerfilScreen;
+export default ProfileScreen;
