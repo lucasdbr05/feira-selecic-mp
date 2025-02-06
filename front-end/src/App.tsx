@@ -5,7 +5,7 @@ import FairsCard from './components/FairsCard';
 import LoginModal from './components/LoginModal';
 import RegisterModal from './components/RegisterModal';
 import LogoutModal from './components/LogoutModal';
-import StoreScreen from './components/StoreScreen';
+import StoreScreen from './pages/StoreScreen';
 
 import type { Fair } from './types';
 import useUserData from './hooks/useUser';
