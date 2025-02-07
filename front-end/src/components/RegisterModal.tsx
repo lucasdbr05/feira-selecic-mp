@@ -27,11 +27,16 @@ export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
     const req: CreateUserData = {
       email: data.email,
       name: data.name,
-      nickname: "fluminense",
       password: data.password,
       role: isFeirante ? Role.SELLER : Role.CLIENT,
       client: {
         cep: data.cep
+      },
+      seller: {
+        shop: {
+          name: data.storeName,
+          fairId: data.feiraLocation ? Number.parseInt(data.feiraLocation): undefined,
+        }
       }
     }
     api.createUser(req)

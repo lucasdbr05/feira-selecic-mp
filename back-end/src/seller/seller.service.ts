@@ -27,7 +27,7 @@ export class SellerService {
     await this.shopService.create(
       {
         name: data.shop.name,
-        categories: {},
+        categories: {}, // TODO: define what categories will be
         fairId: data.shop.fairId,
         isOpen: true,
         sellerId: seller.id,
