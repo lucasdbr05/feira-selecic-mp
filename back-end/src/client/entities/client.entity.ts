@@ -8,9 +8,9 @@ export class ClientEntity implements Client {
   @IsString()
   cep: string;
 
-  @IsString()
-  latitude: string;
+  @IsNumber()
+  latitude: number;
 
-  @IsString()
-  longitude: string;
+  @IsNumber()
+  longitude: number;
 }

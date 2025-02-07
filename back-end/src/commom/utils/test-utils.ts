@@ -7,7 +7,6 @@ const genUser = (): UserEntity => {
     id: faker.number.int(),
     email: faker.internet.email(),
     name: faker.string.alpha(),
-    nickname: faker.string.alpha(),
     password: faker.string.uuid(),
     refreshToken: faker.string.uuid(),
     role: faker.helpers.arrayElement(Object.values(Role)),

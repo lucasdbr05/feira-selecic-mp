@@ -13,11 +13,11 @@ export class FairEntity implements Fair {
   @IsNotEmpty()
   cep: string;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  latitude: string;
+  latitude: number;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  longitude: string;
+  longitude: number;
 }

@@ -1,21 +1,41 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSellerDto } from './dto/create-seller.dto';
+import { CreateFullSellerDto, CreateSellerDto } from './dto/create-seller.dto';
 import {
   PrismaService,
   PrismaServiceTransaction,
 } from '../prisma/prisma.service';
+import { ShopService } from '../shop/shop.service';
 
 @Injectable()
 export class SellerService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly shopService: ShopService,
+  ) {}
 
   async create(
-    data: CreateSellerDto,
+    data: CreateFullSellerDto,
     prismaTransaction: PrismaServiceTransaction = this.prisma,
   ) {
-    return await prismaTransaction.seller.create({
-      data: data,
+    const sellerData: CreateSellerDto = {
+      id: data.id,
+    };
+    const seller = await prismaTransaction.seller.create({
+      data: sellerData,
     });
+
+    await this.shopService.create(
+      {
+        name: data.shop.name,
+        categories: {},
+        fairId: data.shop.fairId,
+        isOpen: true,
+        sellerId: seller.id,
+      },
+      prismaTransaction,
+    );
+
+    return seller;
   }
 
   async findAll() {

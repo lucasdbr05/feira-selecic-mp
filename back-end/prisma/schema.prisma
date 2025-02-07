@@ -19,9 +19,8 @@ enum Role {
 
 model User {
   id        Int   @id     @default(autoincrement())
-  name      String   
-  nickname  String   @unique 
   email     String   @unique
+  name      String    
   password  String
 
   refreshToken   String?
@@ -53,16 +52,16 @@ model Client {
   user User @relation(fields: [id], references: [id])
 
   cep  String  
-  latitude String
-  longitude  String
+  latitude Float
+  longitude  Float
 }
 
 model Fair {
   id Int @id @default(autoincrement())
   name String
   cep  String  
-  latitude String
-  longitude  String
+  latitude Float
+  longitude  Float
   shops Shop[] @relation()
 }
 

@@ -17,10 +17,6 @@ export class UserEntity implements User {
   name: string;
 
   @IsString()
-  @IsNotEmpty()
-  nickname: string;
-
-  @IsString()
   @IsEmail()
   email: string;
 

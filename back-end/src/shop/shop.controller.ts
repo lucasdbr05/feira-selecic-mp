@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { ShopService } from './shop.service';
 import { CreateShopDto } from './dto/create-shop.dto';
 import { UpdateShopDto } from './dto/update-shop.dto';
@@ -8,30 +17,30 @@ export class ShopController {
   constructor(private readonly shopService: ShopService) {}
 
   @Post()
-  create(@Body() createShopDto: CreateShopDto) {
-    return this.shopService.create(createShopDto);
+  async create(@Body() createShopDto: CreateShopDto) {
+    return await this.shopService.create(createShopDto);
   }
 
   @Get()
-  findAll() {
-    return this.shopService.findAll();
+  async findAll() {
+    return await this.shopService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.shopService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.shopService.findOne(+id);
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateShopDto: UpdateShopDto,
   ) {
-    return this.shopService.update(+id, updateShopDto);
+    return await this.shopService.update(+id, updateShopDto);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.shopService.remove(+id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    return await this.shopService.remove(+id);
   }
 }

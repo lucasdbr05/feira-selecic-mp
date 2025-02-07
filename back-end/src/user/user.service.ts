@@ -20,7 +20,6 @@ export class UserService {
     const userData: CreateUserDto = {
       email: data.email,
       name: data.name,
-      nickname: new Date().toISOString(), //TODO: remove this shit
       password: data.password,
       role: data.role,
     };
@@ -39,7 +38,10 @@ export class UserService {
       if (user.role == Role.ADMIN) {
         await this.adminService.create({ id: user.id }, prismaTransaction);
       } else if (user.role == Role.SELLER) {
-        await this.sellerService.create({ id: user.id }, prismaTransaction);
+        await this.sellerService.create(
+          { id: user.id, shop: data.seller.shop },
+          prismaTransaction,
+        );
       } else if (user.role == Role.CLIENT) {
         await this.clientService.create(
           {

@@ -9,7 +9,11 @@ export class FairService {
 
   async create(data: CreateFairDto) {
     return await this.prisma.fair.create({
-      data: data,
+      data: {
+        ...data,
+        latitude: 0,
+        longitude: 0,
+      },
     });
   }
 

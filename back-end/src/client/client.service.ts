@@ -16,8 +16,8 @@ export class ClientService {
     return await prismaTransaction.client.create({
       data: {
         ...data,
-        latitude: '0.000',
-        longitude: '0.000',
+        latitude: 0,
+        longitude: 0,
       },
     });
   }
