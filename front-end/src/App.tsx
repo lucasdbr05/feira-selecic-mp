@@ -164,7 +164,6 @@ function App() {
         onSearchChange={setSearchQuery}  
         openLoginOrLogoutModal={() => {
           if(!user ) {
-            console.log("-->", !user)
             setIsLoginModalOpen(true)
           }
           else {

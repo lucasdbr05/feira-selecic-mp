@@ -57,7 +57,6 @@ const StoreScreen = ({ onBack, storeData = defaultStoreData }: StoreScreenProps)
         onSearchChange={setSearchQuery}  
         openLoginOrLogoutModal={() => {
           if(!user ) {
-            console.log("-->", !user)
             setIsLoginModalOpen(true)
           }
           else {

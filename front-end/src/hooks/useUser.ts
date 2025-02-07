@@ -8,7 +8,6 @@ const useUserData = () => {
   useEffect(() => {
       const fetchUserData = async () => {
         const user =await api.getUserActive().then(res => res).catch(err => undefined);
-        console.log(user)
         if(!user) {
             setUserData(undefined)
             return
