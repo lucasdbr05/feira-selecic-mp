@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Star, MapPin, Clock, Tag, Phone, Mail, DollarSign, ChevronLeft} from 'lucide-react';
-import Header from './Header';
-import ReviewModal from './ReviewModal';
+import Header from '../components/Header';
+import ReviewModal from '../components/ReviewModal';
 import useUserData from '../hooks/useUser';
-import LoginModal from './LoginModal';
-import LogoutModal from './LogoutModal';
+import LoginModal from '../components/LoginModal';
+import LogoutModal from '../components/LogoutModal';
 
 interface StoreScreenProps {
   onBack: () => void;
