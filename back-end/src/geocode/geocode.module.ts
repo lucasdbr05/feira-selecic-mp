@@ -7,5 +7,6 @@ import { GeocodeService } from './geocode.service';
   imports: [HttpModule],
   controllers: [GeocodeController],
   providers: [GeocodeService],
+  exports: [GeocodeService],
 })
 export class GeocodeModule {}

@@ -13,3 +13,34 @@ export type ViacepData = {
   ddd: string;
   siafi: string;
 };
+
+export type GeocodeData = {
+  results: {
+    geometry: {
+      bounds: {
+        northeast: {
+          lat: number;
+          lng: number;
+        };
+        southwest: {
+          lat: number;
+          lng: number;
+        };
+      };
+      location: {
+        lat: number;
+        lng: number;
+      };
+      viewport: {
+        northeast: {
+          lat: number;
+          lng: number;
+        };
+        southwest: {
+          lat: number;
+          lng: number;
+        };
+      };
+    };
+  }[];
+};

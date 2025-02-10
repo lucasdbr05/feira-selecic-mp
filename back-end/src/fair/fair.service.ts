@@ -2,17 +2,24 @@ import { Injectable } from '@nestjs/common';
 import { CreateFairDto } from './dto/create-fair.dto';
 import { UpdateFairDto } from './dto/update-fair.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { GeocodeService } from '../geocode/geocode.service';
 
 @Injectable()
 export class FairService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly geocodingService: GeocodeService,
+  ) {}
 
   async create(data: CreateFairDto) {
+    const location = await this.geocodingService
+      .geocode(data.cep)
+      .then((res) => res.results[0]);
     return await this.prisma.fair.create({
       data: {
         ...data,
-        latitude: 0,
-        longitude: 0,
+        latitude: location.geometry.location.lat,
+        longitude: location.geometry.location.lng,
       },
     });
   }

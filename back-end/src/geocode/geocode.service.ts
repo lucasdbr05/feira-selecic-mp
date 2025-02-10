@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
-import { ViacepData } from './types';
+import { GeocodeData, ViacepData } from './types';
 
 @Injectable()
 export class GeocodeService {
@@ -14,9 +14,10 @@ export class GeocodeService {
     private readonly httpService: HttpService,
   ) {}
 
-  async geocode(address: string): Promise<any> {
-    const addressDetails = await this.getAdressDetails(address);
+  async geocode(address: string): Promise<GeocodeData> {
     const apiKey = this.config.get<string>('GOOGLE_MAPS_API');
+
+    const addressDetails = await this.getAdressDetails(address);
     const url = `${this.baseUrl}/geocode/json?address=${this.formatMapsAddress(addressDetails)}&key=${apiKey}`;
     return await this.requestData(url);
   }
@@ -37,7 +38,7 @@ export class GeocodeService {
   }
 
   private formatMapsAddress(data: ViacepData): string {
-    const address = `${data.logradouro.replace(' ', '+')},+${data.bairro.replace(' ', '+')},+${data.localidade.replace(' ', '+')},+${data.estado.replace(' ', '+')}`;
+    const address = `${data.logradouro}, ${data.bairro}, ${data.localidade}, ${data.estado}`;
     return encodeURIComponent(address);
   }
   private async requestData(url: string) {
