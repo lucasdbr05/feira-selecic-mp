@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { X, Mail, Lock, User, MapPin, Store } from 'lucide-react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { CreateUserData, Role } from '../api-client/types';
+import { CreateUserData, FairsData, Role } from '../api-client/types';
 import { Api } from '../api-client/api';
 
 interface RegisterModalProps {
@@ -16,12 +16,15 @@ export type FormInputData =  {
   address: string;
   cep: string;
   feiraLocation?: string;
+  feiraId?: string;
   storeName?: string;
 }
 
 export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
   const api = new Api();
   
+  const [fairs, setFairsData] = useState<FairsData[]>([])
+
   const { register, handleSubmit, formState: { errors } } = useForm<FormInputData>();
   const onSubmit: SubmitHandler<FormInputData> = (data) => {
     const req: CreateUserData = {
@@ -35,12 +38,20 @@ export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
       seller: {
         shop: {
           name: data.storeName,
-          fairId: data.feiraLocation ? Number.parseInt(data.feiraLocation): undefined,
+          fairId: data.feiraId ? Number.parseInt(data.feiraId): undefined
         }
       }
     }
     api.createUser(req)
   }
+
+  
+  useEffect(() => {
+    api.getFairs().then(
+      res => setFairsData(res)
+    )
+
+  }, [])
 
   const [isFeirante, setIsFeirante] = useState(false);
 
@@ -147,19 +158,21 @@ export default function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
               <div className="mb-4">
                 <label className="block text-gray-700">Local da Feira</label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <MapPin className="h-4 w-4 text-gray-400" />
-                  </div>
-                  <input
-                    type="text"
-                    {...register('feiraLocation', { required: 'Local da feira é obrigatório' })}
-                    className="block w-full pl-9 pr-3 py-2 ring-1 ring-gray-200 rounded-lg bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-shadow sm:text-sm"
-                    placeholder="Nome da feira"
-                  />
+                <select
+                    {...register('feiraId', { required: 'Local da feira é obrigatório' })}
+                    className="block w-full pl-3 pr-10 py-2 ring-1 ring-gray-200 rounded-lg bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-shadow sm:text-sm"
+                  >
+                    <option value="">Selecione uma feira</option>
+                    {fairs.map((fair) => (
+                      <option key={fair.id} value={fair.id}>
+                        {fair.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-                {errors.feiraLocation && <p className="text-red-500 text-sm">{errors.feiraLocation.message}</p>}
+                {errors.feiraId && <p className="text-red-500 text-sm">{errors.feiraId.message}</p>}
               </div>
-
+              
               <div className="mb-4">
                 <label className="block text-gray-700">Nome da Banca</label>
                 <div className="relative">

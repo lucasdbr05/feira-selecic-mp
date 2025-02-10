@@ -1,4 +1,4 @@
-import React, { useState, useMemo} from 'react';
+import React, { useState, useMemo, useEffect} from 'react';
 import Header from './components/Header';
 import Filters from './components/Filters';
 import FairsCard from './components/FairsCard';
@@ -9,6 +9,8 @@ import StoreScreen from './pages/StoreScreen';
 
 import type { Fair } from './types';
 import useUserData from './hooks/useUser';
+import { FairsData } from './api-client/types';
+import { Api } from './api-client/api';
 
 
 const MOCK_FAIRS: Fair[] = [
@@ -70,6 +72,7 @@ interface FilterState {
 }
 
 function App() {
+  const api = new Api()
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);

@@ -1,3 +1,9 @@
+export enum Role {
+    CLIENT = "CLIENT", 
+    SELLER = "SELLER",
+    ADMIN = "ADMIN",
+}
+
 export type LoginData = {
     email: string;
     password: string;
@@ -30,8 +36,14 @@ export type UserStored = {
     name: string,
 } 
 
-export enum Role {
-    CLIENT = "CLIENT", 
-    SELLER = "SELLER",
-    ADMIN = "ADMIN",
+export type ShopsData = any // TODO: create ShopsData type
+
+
+export type FairsData = {
+    id: number,
+    name: number,
+    cep: string,
+    latitude: number,
+    longitude: number,
+    shops: ShopsData[],
 }
