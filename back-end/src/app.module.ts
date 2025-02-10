@@ -7,6 +7,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AtGuard } from './auth/guards/at.guard';
 import { RolesGuard } from './auth/guards/roles.guard';
 import { AppController } from './app.controller';
+import { GeocodeModule } from './geocode/geocode.module';
 import { AdminModule } from './admin/admin.module';
 import { SellerModule } from './seller/seller.module';
 import { ClientModule } from './client/client.module';
@@ -20,6 +21,7 @@ import { ProductModule } from './product/product.module';
     PrismaModule,
     UserModule,
     AuthModule,
+    GeocodeModule,
     AdminModule,
     SellerModule,
     ClientModule,
