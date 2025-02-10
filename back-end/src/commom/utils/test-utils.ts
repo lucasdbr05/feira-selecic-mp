@@ -4,10 +4,9 @@ import { Role } from '@prisma/client';
 
 const genUser = (): UserEntity => {
   return {
-    email: faker.internet.email(),
     id: faker.number.int(),
+    email: faker.internet.email(),
     name: faker.string.alpha(),
-    nickname: faker.string.alpha(),
     password: faker.string.uuid(),
     refreshToken: faker.string.uuid(),
     role: faker.helpers.arrayElement(Object.values(Role)),

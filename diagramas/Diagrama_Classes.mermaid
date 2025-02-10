@@ -1,0 +1,49 @@
+classDiagram
+    direction TB
+
+    class Usuario {
+        <<abstract>>
+        +String email
+        +String senha
+        +String nome
+    }
+
+    class Administrador {
+        +gerenciarUsuarios()
+        +gerenciarFeiras()
+        +gerenciarBancas()
+        +gerenciarProdutos()
+    }
+
+    class Cliente {
+        +String cep
+        +pesquisarProdutos()
+    }
+
+    class Feirante {
+        +String cnpj
+        +List~Banca~ bancas
+        +criarBanca()
+        +associarBancaFeira()
+        +gerenciarBanca()
+    }
+
+    class Banca {
+        +String cep
+        +Feira feiraAssociada
+        +int avaliacao
+        +List~String~ produtosOfertados
+    }
+
+    class Feira {
+        +String nome
+        +String localizacao
+        +List~Banca~ bancas
+    }
+
+    Usuario <|-- Administrador
+    Usuario <|-- Cliente
+    Usuario <|-- Feirante
+    Feira "1" --> "1..*" Banca : possui
+    Banca "1" --> "1" Feira : associada
+    Feirante "1" --> "1..*" Banca : cria

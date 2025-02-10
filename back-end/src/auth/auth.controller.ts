@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 
@@ -13,6 +15,7 @@ import { AuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';
 import { Tokens } from './types';
 import { CreateUserDto } from '../user/dto/create-user.dto';
+import { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -26,16 +29,27 @@ export class AuthController {
   }
 
   @Public()
-  @Post('signin')
+  @Post('login')
   @HttpCode(HttpStatus.OK)
-  async signin(@Body() data: AuthDto): Promise<Tokens> {
-    return await this.authService.signin(data);
+  async signin(
+    @Res({ passthrough: true }) res: Response,
+    @Body() data: AuthDto,
+  ): Promise<Tokens> {
+    const tokens = await this.authService.signin(data);
+    this.authService.setAuthCookies(res, tokens);
+
+    return tokens;
   }
 
   @Post('logout')
   @HttpCode(HttpStatus.OK)
-  async logout(@GetUserId() userId: number): Promise<string> {
-    return await this.authService.logout(userId);
+  async logout(
+    @Res({ passthrough: true }) res: Response,
+    @GetUserId() userId: number,
+  ): Promise<string> {
+    const message = await this.authService.logout(userId);
+    this.authService.clearAuthCookies(res);
+    return message;
   }
 
   @Public()
@@ -43,9 +57,22 @@ export class AuthController {
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   async refreshTokens(
+    @Res({ passthrough: true }) res: Response,
     @GetUserId() userId: number,
     @GetUser('refreshToken') refreshToken: string,
   ): Promise<Tokens> {
-    return await this.authService.refreshTokens(userId, refreshToken);
+    const tokens = await this.authService.refreshTokens(userId, refreshToken);
+    this.authService.setAuthCookies(res, tokens);
+    return tokens;
+  }
+
+  @Get('active')
+  @HttpCode(HttpStatus.OK)
+  async getActive(
+    @Res({ passthrough: true }) res: Response,
+    @GetUserId() userId: number,
+  ) {
+    const user = await this.authService.getActive(userId);
+    return user;
   }
 }

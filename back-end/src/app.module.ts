@@ -8,6 +8,12 @@ import { AtGuard } from './auth/guards/at.guard';
 import { RolesGuard } from './auth/guards/roles.guard';
 import { AppController } from './app.controller';
 import { GeocodeModule } from './geocode/geocode.module';
+import { AdminModule } from './admin/admin.module';
+import { SellerModule } from './seller/seller.module';
+import { ClientModule } from './client/client.module';
+import { FairModule } from './fair/fair.module';
+import { ShopModule } from './shop/shop.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -16,6 +22,12 @@ import { GeocodeModule } from './geocode/geocode.module';
     UserModule,
     AuthModule,
     GeocodeModule,
+    AdminModule,
+    SellerModule,
+    ClientModule,
+    FairModule,
+    ShopModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [

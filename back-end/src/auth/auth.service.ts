@@ -6,9 +6,11 @@ import { PrismaService } from '../prisma/prisma.service';
 
 import { AuthDto } from './dto/auth.dto';
 import { JwtPayload, Tokens } from './types';
-import { CreateUserDto } from '../user/dto/create-user.dto';
+import { CreateUserWithRole } from '../user/dto/create-user.dto';
 import { Role } from '@prisma/client';
 import { UserService } from '../user/user.service';
+import { CookieUtils } from './cookie-utils/cookie-utils';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -28,14 +30,13 @@ export class AuthService {
    * @returns A promise that resolves to the tokens for the new user.
    * @throws ForbiddenException if the credentials are incorrect.
    */
-  async signup(data: CreateUserDto): Promise<Tokens> {
+  async signup(data: CreateUserWithRole): Promise<Tokens> {
     const hash = await bcrypt.hash(data.password, this.salt);
 
-    const createUserData: CreateUserDto = {
+    const user = await this.userService.create({
       ...data,
       password: hash,
-    };
-    const user = await this.userService.create(createUserData);
+    });
 
     const tokens = await this.getTokens(user.id, user.email, user.role);
     await this.updateRefreshToken(user.id, tokens.refresh_token);
@@ -151,7 +152,7 @@ export class AuthService {
     const [at, rt] = await Promise.all([
       this.jwtService.signAsync(jwtPayload, {
         secret: this.config.get<string>('AT_SECRET'),
-        expiresIn: '15m',
+        expiresIn: '1h',
       }),
       this.jwtService.signAsync(jwtPayload, {
         secret: this.config.get<string>('RT_SECRET'),
@@ -163,5 +164,33 @@ export class AuthService {
       access_token: at,
       refresh_token: rt,
     };
+  }
+
+  async getActive(id: number) {
+    const user = await this.userService.findOne(id);
+    return {
+      email: user.email,
+      name: user.name,
+      id: user.id,
+    };
+  }
+
+  setAuthCookies(res: Response, tokens: Tokens) {
+    CookieUtils.setHeaderWithCookie(
+      res,
+      { access_token: tokens.access_token },
+      this.config.get<number>('AT_EXPIRATION'),
+    );
+
+    CookieUtils.setHeaderWithCookie(
+      res,
+      { refresh_token: tokens.refresh_token },
+      this.config.get<number>('RT_EXPIRATION'),
+    );
+  }
+
+  clearAuthCookies(res: Response) {
+    CookieUtils.clearCookie(res, 'access_token');
+    CookieUtils.clearCookie(res, 'refresh_token');
   }
 }

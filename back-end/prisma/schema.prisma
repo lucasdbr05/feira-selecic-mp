@@ -19,9 +19,8 @@ enum Role {
 
 model User {
   id        Int   @id     @default(autoincrement())
-  name      String   
-  nickname  String   @unique 
   email     String   @unique
+  name      String    
   password  String
 
   refreshToken   String?
@@ -44,6 +43,7 @@ model Admin {
 model Seller {
   id   Int  @id
   user User @relation(fields: [id], references: [id])
+  shop Shop?
 }
 
 
@@ -52,6 +52,37 @@ model Client {
   user User @relation(fields: [id], references: [id])
 
   cep  String  
-  latitude String
-  longitude  String
+  latitude Float
+  longitude  Float
+}
+
+model Fair {
+  id Int @id @default(autoincrement())
+  name String
+  cep  String  
+  latitude Float
+  longitude  Float
+  shops Shop[] @relation()
+}
+
+model Shop {
+  id Int  @id @default(autoincrement())
+  name String
+  fairId Int
+  fair Fair @relation(fields: [fairId], references: [id])
+  sellerId Int @unique
+  seller Seller @relation(fields: [sellerId], references: [id])
+  categories  Json
+  products Product[]
+  isOpen Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id Int @id @default(autoincrement())
+  name String
+  price Float
+  shopId Int
+  shop Shop @relation(fields: [shopId], references: [id])
 }
