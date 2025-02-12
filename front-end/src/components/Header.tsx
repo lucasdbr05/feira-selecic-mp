@@ -1,17 +1,44 @@
+/**
+ * @file Header.tsx
+ * @brief Componente de cabeçalho para a aplicação, incluindo barra de pesquisa e navegação.
+ * @details Este componente contém a barra de pesquisa, botão de login/logout e categorias de navegação.
+ */
+
 import React, { useState, ChangeEvent } from 'react';
 import { Search, User, Menu, MapPin } from 'lucide-react';
 
+/**
+ * @typedef {Object} HeaderProps
+ * @property {string} searchQuery - Termo atual de pesquisa.
+ * @property {Function} onSearchChange - Função para atualizar o termo de pesquisa.
+ * @property {Function} [openLoginOrLogoutModal] - Função opcional para abrir o modal de login ou logout.
+ */
 interface HeaderProps {
   searchQuery: string;
   onSearchChange: (value: string) => void;
   openLoginOrLogoutModal?: () => void;
 }
 
+/**
+ * @function Header
+ * @brief Componente de cabeçalho com barra de pesquisa e opções de navegação.
+ * @param {HeaderProps} props - Propriedades do componente.
+ * @assertivas_de_entrada `searchQuery` deve ser uma string válida e `onSearchChange` deve ser uma função.
+ * @assertivas_de_saída Retorna um componente React representando o cabeçalho da aplicação.
+ * @return {JSX.Element} Elemento JSX representando o cabeçalho da aplicação.
+ * @details O cabeçalho inclui um campo de busca, botão para login/logout e menu de categorias.
+ */
 export default function Header({ searchQuery, onSearchChange, openLoginOrLogoutModal }: HeaderProps) {
   //const [cartCount] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-
+  /**
+   * @function handleSearchChange
+   * @brief Atualiza o termo de pesquisa ao modificar o campo de entrada.
+   * @param {ChangeEvent<HTMLInputElement>} e - Evento de mudança no input.
+   * @assertivas_de_entrada `e.target.value` deve ser uma string válida.
+   * @assertivas_de_saída Atualiza o estado de pesquisa chamando `onSearchChange`.
+   */
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     onSearchChange(e.target.value);
   };

@@ -1,3 +1,10 @@
+/**
+ * @file StoreScreen.tsx
+ * @brief Tela de exibição de informações de uma loja, incluindo avaliações, endereço e imagens de produtos.
+ * @details Componente React responsável por exibir informações detalhadas de uma loja, incluindo avaliações de usuários,
+ * horário de funcionamento, contatos e imagens dos produtos disponíveis.
+ */
+
 import React, { useState } from 'react';
 import { Star, MapPin, Clock, Tag, Phone, Mail, DollarSign, ChevronLeft} from 'lucide-react';
 import Header from '../components/Header';
@@ -6,6 +13,25 @@ import useUserData from '../hooks/useUser';
 import LoginModal from '../components/LoginModal';
 import LogoutModal from '../components/LogoutModal';
 
+/**
+ * @typedef {Object} StoreData
+ * @property {string} name - Nome da loja.
+ * @property {number} rating - Avaliação média da loja.
+ * @property {number} totalReviews - Número total de avaliações.
+ * @property {string} address - Endereço da loja.
+ * @property {string} schedule - Horário de funcionamento da loja.
+ * @property {string[]} tags - Lista de categorias relacionadas à loja.
+ * @property {string} phone - Número de telefone da loja.
+ * @property {string} email - Email de contato da loja.
+ * @property {string} priceRange - Faixa de preço da loja.
+ * @property {string} image - URL da imagem representativa da loja.
+ */
+
+/**
+ * @typedef {Object} StoreScreenProps
+ * @property {Function} onBack - Função chamada ao clicar no botão de voltar.
+ * @property {StoreData} [storeData] - Dados da loja a serem exibidos.
+ */
 interface StoreScreenProps {
   onBack: () => void;
   storeData?: {
@@ -22,6 +48,15 @@ interface StoreScreenProps {
   };
 }
 
+/**
+ * @function StoreScreen
+ * @brief Componente principal para exibição das informações de uma loja.
+ * @param {StoreScreenProps} props - Propriedades do componente.
+ * @assertivas_de_entrada A propriedade `storeData` deve ser um objeto válido contendo informações da loja.
+ * @assertivas_de_saída Retorna um componente React representando a tela de uma loja.
+ * @return {JSX.Element} Componente React para exibição das informações de uma loja.
+ * @details Este componente exibe informações detalhadas de uma loja, incluindo avaliações, contatos e imagens.
+ */
 const StoreScreen = ({ onBack, storeData = defaultStoreData }: StoreScreenProps) => {
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
@@ -30,6 +65,10 @@ const StoreScreen = ({ onBack, storeData = defaultStoreData }: StoreScreenProps)
   const [searchQuery, setSearchQuery] = useState('');
   const user = useUserData()
 
+  /**
+   * @constant {Array} reviews
+   * @brief Lista fixa de avaliações fictícias para exibição na tela.
+   */
   const reviews = [
     {
       id: 1,
@@ -47,6 +86,10 @@ const StoreScreen = ({ onBack, storeData = defaultStoreData }: StoreScreenProps)
     }
   ];
 
+  /**
+   * @constant {Array} productPhotos
+   * @brief Array contendo URLs de imagens de produtos fictícios.
+   */
   const productPhotos = Array(8).fill("https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=400&auto=format");
 
   return (
@@ -240,6 +283,10 @@ const StoreScreen = ({ onBack, storeData = defaultStoreData }: StoreScreenProps)
   );
 };
 
+/**
+ * @constant {StoreData} defaultStoreData
+ * @brief Dados padrão para exibição caso `storeData` não seja fornecido.
+ */
 const defaultStoreData = {
   name: "Barraca do Seu João",
   rating: 4.2,

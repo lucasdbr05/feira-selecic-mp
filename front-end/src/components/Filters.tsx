@@ -1,6 +1,20 @@
+/**
+ * @file Filters.tsx
+ * @brief Componente de filtros para busca de produtos.
+ * @details Este componente permite que os usuários filtrem itens por preço, distância, categoria e avaliação.
+ *          Ele fornece opções de entrada de faixa de preço, controle deslizante para distância, caixas de seleção para categorias
+ *          e botões de rádio para classificação por avaliação.
+ *          O estado dos filtros é gerenciado e atualizado dinamicamente conforme as interações do usuário.
+ *          Inclui um botão para redefinir todos os filtros para os valores padrão.
+ */
+
 import React, { ChangeEvent } from 'react';
 import { Sliders, Star } from 'lucide-react';
 
+/**
+ * @brief Interface das propriedades do componente de filtros.
+ * @details Define os tipos para os filtros disponíveis, incluindo faixa de preço, distância, categorias e avaliação.
+ */
 interface FiltersProps {
   filters: {
     priceRange: { min: number | null; max: number | null };
@@ -13,7 +27,21 @@ interface FiltersProps {
 
 const CATEGORIES = ['Frutas', 'Verduras', 'Legumes', 'Orgânicos', 'Artesanato'];
 
+/**
+ * @brief Componente de filtros para busca de produtos.
+ * @param {FiltersProps} props - Propriedades do componente.
+ * @assertivas_de_entrada - O estado inicial deve conter valores válidos para os filtros.
+ * @assertivas_de_saída - O estado atualizado deve refletir os filtros escolhidos pelo usuário.
+ * @return {JSX.Element} Elemento de filtro renderizado.
+ */
 export default function Filters({ filters, onChange }: FiltersProps) {
+  /**
+   * @brief Manipula a alteração da faixa de preço.
+   * @param {('min' | 'max')} type - Define se o valor alterado é o mínimo ou máximo.
+   * @param {string} value - Valor digitado pelo usuário.
+   * @assertivas_de_entrada - O valor deve ser um número ou uma string vazia.
+   * @assertivas_de_saída - O estado de priceRange é atualizado corretamente.
+   */
   const handlePriceChange = (type: 'min' | 'max', value: string) => {
     const numValue = value === '' ? null : Number(value);
     onChange({
@@ -25,6 +53,12 @@ export default function Filters({ filters, onChange }: FiltersProps) {
     });
   };
 
+  /**
+   * @brief Manipula a alteração da distância.
+   * @param {ChangeEvent<HTMLInputElement>} e - Evento do input range.
+   * @assertivas_de_entrada - O valor deve estar dentro da faixa 0-50.
+   * @assertivas_de_saída - O estado de distância é atualizado corretamente.
+   */
   const handleDistanceChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChange({
       ...filters,
@@ -32,6 +66,12 @@ export default function Filters({ filters, onChange }: FiltersProps) {
     });
   };
 
+  /**
+   * @brief Manipula a seleção de categorias.
+   * @param {string} category - Categoria selecionada.
+   * @assertivas_de_entrada - A categoria deve estar definida na lista `CATEGORIES`.
+   * @assertivas_de_saída - O estado de categorias é atualizado corretamente.
+   */
   const handleCategoryChange = (category: string) => {
     const newCategories = filters.categories.includes(category)
       ? filters.categories.filter(c => c !== category)
@@ -43,7 +83,12 @@ export default function Filters({ filters, onChange }: FiltersProps) {
     });
   };
 
-  // Implementado filtro por rating via radio buttons
+  /**
+   * @brief Manipula a seleção de avaliação.
+   * @param {ChangeEvent<HTMLInputElement>} e - Evento do input radio.
+   * @assertivas_de_entrada - O valor deve ser um número entre 1 e 5 ou 0 (qualquer avaliação).
+   * @assertivas_de_saída - O estado de rating é atualizado corretamente.
+   */
   const handleRatingChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedRating = Number(e.target.value);
     onChange({
@@ -52,6 +97,10 @@ export default function Filters({ filters, onChange }: FiltersProps) {
     });
   };
 
+  /**
+   * @brief Limpa todos os filtros e retorna aos valores padrão.
+   * @assertivas_de_saída - Todos os filtros são redefinidos para os valores iniciais.
+   */
   const handleClearFilters = () => {
     onChange({
       priceRange: { min: null, max: null },

@@ -1,3 +1,10 @@
+/**
+ * @file ProfileScreen.tsx
+ * @brief Tela de perfil do usuário, permitindo a navegação entre perfil, favoritos e avaliações.
+ * @details Componente React responsável por exibir e gerenciar a tela de perfil do usuário, onde é possível editar informações pessoais,
+ * visualizar feiras favoritas e acessar avaliações feitas anteriormente.
+ */
+
 import React, { useState } from 'react';
 import { User, Heart, Newspaper, Store, Star } from 'lucide-react';
 import Header from '../components/Header';
@@ -7,6 +14,10 @@ import useUserData from '../hooks/useUser';
 
 import type { Fair } from '../types';
 
+/**
+ * @constant {Fair[]} MOCK_FAIRS
+ * @brief Lista de feiras fictícias para exibição na tela de favoritos.
+ */
 const MOCK_FAIRS: Fair[] = [
   {
     id: '1',
@@ -58,6 +69,10 @@ const MOCK_FAIRS: Fair[] = [
   }
 ];
 
+/**
+ * @constant {Object[]} MOCK_REVIEWS
+ * @brief Lista de avaliações fictícias para exibição na seção de avaliações.
+ */
 const MOCK_REVIEWS = [
   {
     id: '1',
@@ -85,6 +100,15 @@ const MOCK_REVIEWS = [
   },
 ];
 
+/**
+ * @function ProfileScreen
+ * @brief Componente principal da tela de perfil do usuário.
+ * @assertivas_de_entrada Nenhuma entrada obrigatória, pois é um componente de tela.
+ * @assertivas_de_saída Retorna um componente React representando a tela de perfil do usuário.
+ * @return {JSX.Element} Componente React representando a tela de perfil do usuário.
+ * @details Permite a navegação entre três seções: Perfil, Favoritos e Avaliações.
+ * O usuário pode editar suas informações pessoais, visualizar suas feiras favoritas e acessar suas avaliações.
+ */
 const ProfileScreen = () => {
   const [activeSection, setActiveSection] = useState('perfil');
   const [showFair, setShowFair] = useState(false);
@@ -94,6 +118,13 @@ const ProfileScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const user = useUserData()
 
+  /**
+   * @function handleVisitFair
+   * @brief Manipula a seleção de uma feira, alternando a exibição para a tela de detalhes.
+   * @param {Fair} fair - Feira selecionada.
+   * @assertivas_de_entrada `fair` deve ser um objeto válido contendo informações da feira.
+   * @assertivas_de_saída Atualiza o estado `selectedFair` e exibe a tela de detalhes da feira.
+   */
   const handleVisitFair = (fair: Fair) => {
     setSelectedFair(fair);
     setShowFair(true);
