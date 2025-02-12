@@ -1,4 +1,4 @@
 Data       | Horas Trabalhadas | Tipo Tarefa        | Descrição da Tarefa Realizada
-02/02/2025 |                   | Projetar Front-end | Definições iniciais do design do front-end no figma
-03/02/2025 |                   | Projetar Front-end | Criação dos componentes Filters.tsx e ProductCard.tsx
-|
+02/02/2025 |        3h         | Projetar Front-end | Definições iniciais do design do front-end no figma
+03/02/2025 |        4h         | Projetar Front-end | Criação dos componentes Filters.tsx e ProductCard.tsx
+10/02/2025 |        3h         | Revisar código     | Revisão de códigos do módulo de autenticação e cookies
