@@ -1,0 +1,3 @@
+Data       | Horas Trabalhadas | Tipo de Tarefa       | Descrição da Tarefa Realizada  
+07/02/2025 | 4 horas           | Implementação Back   | Configurar banco de dados  
+08/02/2025 | 3 horas           | Implementação Front  | Desenvolver componentes de interface  
