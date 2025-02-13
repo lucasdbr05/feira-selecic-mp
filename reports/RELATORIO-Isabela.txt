@@ -1,0 +1,3 @@
+Data       | Horas Trabalhadas |        Tipo Tarefa        |  Descrição da Tarefa Realizada 
+05/02/2025        2 horas         Seller Pair Programming      Programação em pares para integrar o modulo de feirante no backend e no frontend
+07/02/2025        2 horas           Inspeção PR Seller         Inspeção do Pull Request do Seller
