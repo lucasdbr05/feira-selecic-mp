@@ -1,2 +1,4 @@
-Data       | Horas Trabalhadas | Tipo Tarefa | Descrição da Tarefa Realizada
-04/02/2025 |         4H          | backend     | Criação de cruds de feira, loja e produto
+Data       | Horas Trabalhadas | Tipo Tarefa    | Descrição da Tarefa Realizada
+04/02/2025 |         4H          | backend      | Criação de cruds de feira, loja e produto
+08/02/2025 |         3H          | testes       | Testas fluxo do usuário
+10/02/2025 |         2H          | correção bug | Correção de bug no backend
