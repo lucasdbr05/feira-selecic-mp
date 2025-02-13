@@ -1,2 +1,4 @@
 Data       | Horas Trabalhadas |      Tipo Tarefa       | Descrição da Tarefa Realizada 
-04/02/2025        2 horas              projetar            fazer o design de telas no figma
+02/02/2025        3 horas              reunião             discussão e planejamento do trabalho
+04/02/2025        3 horas              projetar            fazer o design de telas no figma
+11/02/2025        1 hora           teste de usuário        validar o design com testes de usuário
