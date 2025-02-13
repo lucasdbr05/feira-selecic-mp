@@ -1,2 +1,4 @@
 Data       | Horas Trabalhadas | Tipo Tarefa | Descrição da Tarefa Realizada
-03/02/2025 |         4         | Diagrama    | Criação do diagrama
+02/02/2025 |         3         | Reunião     | Discussão e planejamento do trabalho
+03/02/2025 |         2         | Diagrama    | Criação do diagrama
+11/02/2025 |         2         | Revisão     | Revisão final do trabalho
