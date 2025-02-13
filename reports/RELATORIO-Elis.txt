@@ -1,2 +1,3 @@
 Data       | Horas Trabalhadas | Tipo Tarefa | Descrição da Tarefa Realizada
 04/02/2025 | 2h                | Pesquisa    | Estudo dos frameworks utilizados no projeto
+06/02/2025 | 3h                | Front-end   | Implementação do front-end
